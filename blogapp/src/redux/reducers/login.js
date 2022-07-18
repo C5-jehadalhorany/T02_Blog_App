@@ -1,22 +1,26 @@
 import { createSlice } from "@reduxjs/toolkit";
+export const isloginSlice = createSlice({
+    name: "login",
+    initialState: {
+        login: false,
+        logout:true,
+        userId:localStorage.getItem("userId")||""
+    },
+    reducers: {
+        setislog: (state, action) => {
+            state.login = true
+            state.userId=action.payload
+            localStorage.setItem("userId",action.payload)
+        },
+        setislogout:(state, action) => {
+            state.logout = false
+            state.userId=""
+            localStorage.clear()
+        },
 
-const logins = createSlice(
-    {
-        name: "logins",
-        initialState: { islogin: false },
-        reducers: {
-            setlogin: (state, action) => {
-                state.islogin = true
-            },
 
-            setlogout: (state, action) => {
-                state.islogin = false
-            }
-        }
+        
     }
-)
-
-
-export const { setlogin, setlogout } = logins.actions
-
-export default logins.reducer
+})
+export const {setislog,setislogout}=isloginSlice.actions
+export default isloginSlice.reducer

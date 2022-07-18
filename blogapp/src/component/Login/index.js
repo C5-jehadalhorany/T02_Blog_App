@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
-import { setlogin, setlogout } from "../../redux/reducers/login"
+import { setislog,setislogout } from "../../redux/reducers/login"
 import { useNavigate } from "react-router-dom";
 
 
@@ -15,34 +15,35 @@ const Login = () => {
     const [name, setName] = useState();
     const [email, setEmail] = useState();
 
-    const { setlogin, setlogout } = useSelector((state) => {
+    const state = useSelector((state) => {
         return {
-
-            setlogin: state.logins.logins,
-            setlogout: state.logins.logins
+            login: state.login.login,
+            logout:state.login.logout
+            
         };
     });
 
+    console.log(state);
 
     const cilcktologin = () => {
-        axios.get(`https://jsonplaceholder.typicode.com/users`).then((result) => {
-            if (result.data.includes(name, email)) {
-                dispatch(setlogin(true))
-                navigate("/");
-                
+        axios.get(`https://jsonplaceholder.typicode.com/users?username=${name}
+        `).then((result) => {
+            if (result.data[0].email == email) {
+                dispatch(setislog(result.data[0].id))
+                // dispatch(setislogout(false))
+                navigate("/log");
+                console.log(result.data[0]);
                 setIslogin(result.data)
             }
-
-         
-            console.log(result.data);
-
+            // console.log(result.data.length);
+            // console.log(result.data);
         }).catch((err) => {
             console.log(err);
         })
 
     }
 
-
+    console.log(name);
 
 
     // useEffect(() => {
@@ -50,17 +51,9 @@ const Login = () => {
     // }, [console.log(islogin)])
 
     return <div>
-        {islogin && islogin.map((element, index) => {
-            return (<div key={element.id}>
 
-
-
-            </div>
-
-            )
-        })}
         <h1>Login</h1>
-        <input placeholder="enter Name" type="text" onChange={(e) => { setName(e.target.value) }} />
+        <input placeholder="enter UserName" type="text" onChange={(e) => { setName(e.target.value) }} />
         <input placeholder="enter Email" type="text" onChange={(e) => { setEmail(e.target.value) }} />
         <button onClick={() => { cilcktologin() }}>Log in</button>
     </div>
