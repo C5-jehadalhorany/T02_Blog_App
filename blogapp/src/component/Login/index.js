@@ -31,7 +31,7 @@ const Login = () => {
             if (result.data[0].email == email) {
                 dispatch(setislog(result.data[0].id))
                 // dispatch(setislogout(false))
-                navigate("/log");
+                navigate("/");
                 console.log(result.data[0]);
                 setIslogin(result.data)
             }
@@ -49,6 +49,9 @@ const Login = () => {
     // useEffect(() => {
     //     console.log(islogin);
     // }, [console.log(islogin)])
+    useEffect(()=>{
+        cilcktologin()
+    },[])
 
     return <div>
 
