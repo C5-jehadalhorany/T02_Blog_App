@@ -9,19 +9,23 @@ import { setislogout } from "../../redux/reducers/login"
 const Navbars = () => {
     const [allpost, setAllpost] = useState([]);
     const [username, setUsername] = useState("");
+    const [islogingin, setIslogingin] = useState(false);
 
 
-    const { userId } = useSelector((state) => {
+    const { userId, login } = useSelector((state) => {
         return {
-            userId: state.login.userId
-
+            userId: state.login.userId,
+            login: state.login.login,
         };
     });
     const dispatch = useDispatch()
+
+
     const userforlogin = () => {
         axios.get(`https://jsonplaceholder.typicode.com/users/${userId}
         `).then((result) => {
             setUsername(result.data.username)
+            setIslogingin(true)
         }).catch((err) => {
             console.log(err);
         })
@@ -33,6 +37,7 @@ const Navbars = () => {
         `).then((result) => {
             // console.log(result.data);
             setAllpost(result.data)
+            setIslogingin(true)
         }).catch((err) => {
             console.log(err);
         })
@@ -41,26 +46,45 @@ const Navbars = () => {
 
     useEffect(() => {
         userforlogin()
+
     }, [])
+
     return (<>
-        <Navbar bg="dark" variant="dark">
-            <Container fluid>
-                <Navbar.Brand href="#home">User</Navbar.Brand>
-                <Navbar.Brand href="post" onClick={() => {
-                    post()
-                }}>post</Navbar.Brand>
-                <Navbar.Toggle />
-                <Navbar.Collapse className="justify-content-end">
-                    <Navbar.Text>
-                        Signed in as: <a href="/login" >   {username}</a>
-                    </Navbar.Text>
-                  
-                </Navbar.Collapse>
-                <Navbar.Brand href="/" onClick={()=>{
-                        dispatch(setislogout())
-                    }}> log out</Navbar.Brand>
-            </Container>
-        </Navbar>
+        {userId ?
+
+            <Navbar bg="dark" variant="dark">
+                <Container fluid>
+
+                    <Navbar.Brand href="user">User</Navbar.Brand>
+                    <Navbar.Brand href="post" onClick={() => {
+                        post()
+                    }}>post</Navbar.Brand>
+                    <Navbar.Toggle />
+                    <Navbar.Collapse className="justify-content-end">
+
+                        (<><Navbar.Brand href="/" onClick={() => {
+                            dispatch(setislogout(false))
+                        }}> log out</Navbar.Brand>
+                            <Navbar.Text>
+                                Signed in as: <a href="/" >   {username}</a>
+                            </Navbar.Text>
+                        </>) :
+
+                    </Navbar.Collapse>
+
+
+                </Container>
+            </Navbar>
+            : (<>
+                <Navbar bg="dark" variant="dark">
+                    <Container >
+                        <Navbar.Text>
+                            <a href="/login"  >  login </a>
+                        </Navbar.Text>
+                    </Container>
+                </Navbar>
+            </>)
+        }
     </>);
 }
 
