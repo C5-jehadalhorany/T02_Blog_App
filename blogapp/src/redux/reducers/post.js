@@ -12,10 +12,14 @@ export const postSlice = createSlice({
             state.post.push(action.payload);
 
         },
-        updatePost: (state, action) => {
+        updatepost: (state, action) => {
             state.post = state.post.map((element, index) => {
-                if (element.id === action.payload.id) {
-                    return element.id = action.payload
+                // console.log(element.id  );
+                // console.log(action.payload);
+                if (element.id == action.payload.id) {
+                    element.body = action.payload.inputs2 || element.body
+                    element.title = action.payload.inputs || element.title
+                    return element
                 } else {
                     return element
                 }
@@ -35,7 +39,7 @@ export const postSlice = createSlice({
 
 export const { setpost,
     addPost,
-    updatePost,
+    updatepost,
     deletepost,
 } = postSlice.actions
 
