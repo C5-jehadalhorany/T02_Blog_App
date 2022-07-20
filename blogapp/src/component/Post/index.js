@@ -14,6 +14,7 @@ import {
 
 
 const PostForRen = () => {
+    const [id, setId] = useState([])
     const [poste, setPoste] = useState([])
     const [posteone, setPosteone] = useState([])
 
@@ -91,32 +92,12 @@ const PostForRen = () => {
                         <p className="card-text">{element.body}</p>
                         {userId == element.userId && <>
 
-                            <Button variant="primary" onClick={handleShow}>
-                                delete
+                            <Button variant="primary" onClick={() => {
+                                handleShow()
+                                setId(element.id)
+                            }}>
+                                deletePost
                             </Button>
-
-                            <Modal show={show} onHide={handleClose}>
-                                <Modal.Header closeButton>
-                                    <Modal.Title>Modal heading</Modal.Title>
-                                </Modal.Header>
-                                <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
-                                <Modal.Footer>
-                                    <Button variant="secondary" onClick={handleClose}>
-                                        Close
-                                    </Button>
-                                    <button className="btn btn-primary" onClick={() => {
-                                        dispatch(deletepost(element.id))
-                                        console.log(element.id)
-                                        handleClose()
-                                    }} >deletePost</button>
-                                </Modal.Footer>
-                            </Modal>
-
-                            {/* <button className="btn btn-primary" onClick={() => {
-                                dispatch(deletepost(element.id))
-                                console.log(element.id)
-                            }} >deletePost</button> */}
-
 
 
                             <button className="btn btn-primary" >updatePost</button>
@@ -138,8 +119,32 @@ const PostForRen = () => {
                     </div>
                 </div>
 
+
             </div>)
+
         })}
+
+        <Modal show={show} onHide={handleClose}>
+            <Modal.Header closeButton>
+                <Modal.Title>Modal heading</Modal.Title>
+            </Modal.Header>
+            <Modal.Body> you're dlete this post in a modal!</Modal.Body>
+            <Modal.Footer>
+                <Button variant="secondary" onClick={handleClose}>
+                    Close
+                </Button>
+                <Button variant="primary" onClick={() => {
+                    console.log(id);
+                    dispatch(deletepost(id))
+                    handleClose()
+                    
+                }}>
+                    delete
+                </Button>
+            </Modal.Footer>
+        </Modal>
+    
+
         {/* //{posteone && posteone.map((element, index) => {
             return (<div>
                 <button className="btn btn-primary" >deletePost</button>
