@@ -1,5 +1,38 @@
-*{
-    padding: 0;
-    margin: 0;
-    
+* {
+  padding: 0;
+  margin: 0;
 }
+
+/* table, th, td {
+    border: 1px solid black;
+}
+th, td {
+    padding: 10px;
+} */
+
+table {
+  border-collapse: collapse;
+  display: flex;
+  width: 100%;
+}
+
+td,
+th {
+  border: 1px solid #999;
+  padding: 0.5rem;
+  text-align: left;
+}
+
+/* .allpostandcomment {
+    display: grid;
+  } */
+
+.forbutten {
+  display: grid;
+  width: 40%;
+}
+
+/* 
+.postinmap {
+  width: 80%;
+} */
