@@ -9,13 +9,10 @@ export const postSlice = createSlice({
             state.post = action.payload;
         },
         addPost: (state, action) => {
-            state.post.push(action.payload);
-
+            state.post.unshift(action.payload)
         },
         updatepost: (state, action) => {
             state.post = state.post.map((element, index) => {
-                // console.log(element.id  );
-                // console.log(action.payload);
                 if (element.id == action.payload.id) {
                     element.body = action.payload.inputs2 || element.body
                     element.title = action.payload.inputs || element.title
@@ -27,13 +24,10 @@ export const postSlice = createSlice({
         },
         deletepost: (state, action) => {
             state.post = state.post.filter((element) => {
-                // console.log(action.payload  , "....." , element.id);  
                 return element.id != action.payload;
             });
         }
     }
-
-
 })
 
 
