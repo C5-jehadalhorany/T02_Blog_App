@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 
 
-
 import Form from 'react-bootstrap/Form';
 
 
@@ -25,19 +24,28 @@ const PostForRen = () => {
 
     const [inputs, setInputs] = useState("")
     const [inputs2, setInputs2] = useState("")
+    const [inputs3, setInputs3] = useState("")
+    const [inputs4, setInputs4] = useState("")
 
+    // this for add 
     const [show, setShow] = useState(false);
-
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-
+    // this for delete
     const [show1, setShow1] = useState(false);
-
     const handleClose1 = () => setShow1(false);
     const handleShow1 = () => setShow1(true);
 
+    //this for add
+    const [show2, setShow2] = useState(false);
+    const handleClose2 = () => setShow2(false);
+    const handleShow2 = () => setShow2(true);
 
+    //this for comment
+    const [show3, setShow3] = useState(false);
+    const handleClose3 = () => setShow3(false);
+    const handleShow3 = () => setShow3(true);
 
     const { userId, login } = useSelector((state) => {
         return {
@@ -46,31 +54,21 @@ const PostForRen = () => {
         };
     });
 
-
     const { post } = useSelector((state) => {
         return {
             post: state.post.post
         };
     });
 
+    let conter = post.length + 1
+
     const dispatch = useDispatch()
-
-
 
     const posts = () => {
         axios.get(`https://jsonplaceholder.typicode.com/posts`).then((result) => {
             // setPoste(result.data)
-            dispatch(setpost(result.data))
+            dispatch(setpost(result.data.reverse()))
 
-        }).catch((err) => {
-            console.log(err);
-        })
-    }
-
-    const handelPost = () => {
-        axios.get(`https://jsonplaceholder.typicode.com/posts?userId=${userId}`).then((result) => {
-            setPosteone(result.data)
-            console.log(result.data);
         }).catch((err) => {
             console.log(err);
         })
@@ -79,106 +77,83 @@ const PostForRen = () => {
     const CommentForPost = () => {
         axios.get(`https://jsonplaceholder.typicode.com/comments`).then((result) => {
             setComment(result.data)
+            setInputs3(result.data[499].postId)
         }).catch((err) => {
             console.log(err);
         })
     }
 
-
-    // const deletePost = async (id) => {
-    //     try{
-    //     await axios.delete(`https://jsonplaceholder.typicode.com/posts?id=${id}`)
-    //     dispatch(deletepost(id))
-    //     } catch(error){
-    //         console.log(error)
-    //     }
-    // }
-
     useEffect(() => {
         posts()
         CommentForPost()
-
     }, [])
-
-
-
     return (<div className='allpostandcomment' align="center">
-        {<> <button className="btn btn-primary" align="center" >AddPost</button></>}
+        {<div className='forbutten'>
+            <Button variant="primary" onClick={() => {
+                handleShow2()
+            }}>
+                add post :)
+            </Button>
+        </div>}
+
         {post && post.map((element) => {
-            return (<div className='postinmap' align="center" key={element.id}>
-                <div className="card"  align="center">
+            return (<div className='postinmap container' align="center" key={element.id}>
+                <div className="card" align="center">
                     <div className="card-header" >
-                        post   {element.id} userId  {element.userId}
+                        post   {element.id || conter} userId  {element.userId}
                     </div>
                     <div className="card-body">
                         <h5 className="card-title">{element.title}</h5>
                         <p className="card-text">{element.body}</p>
-
+                        <br />
+                        <br />
+                        <br />
                         {userId == element.userId && <>
-
+                            {/* this button for delete post  */}
                             <Button variant="primary" onClick={() => {
                                 handleShow1()
                                 setId(element.id)
                             }}>
                                 deletePost
                             </Button>
-
-
-
+                            {/* this button for update post  */}
                             <Button variant="primary" onClick={() => {
                                 handleShow()
                                 setId(element.id)
                                 setInputs(element.title)
                                 setInputs2(element.body)
-                                
                             }}>
                                 updatePost
                             </Button>
-
-                            {/* <Button variant="primary" onClick={() => {
-                                handleShow()
-                            }} >updatePost</Button> */}
                         </>}
 
 
                         {/* this is conment render and if elementid == postid */}
                         {<>
                             {comment && comment.map((commentpo) => {
-
                                 return (element.id == commentpo.postId &&
-                                    
-                                 <div key={commentpo.id}>
-
-                                    <p>{commentpo.body}</p> 
-
+                                    <div key={commentpo.id}>
+                                        CommentForPost {element.id}      ID   {commentpo.id}
+                                        <p>{commentpo.body}</p>
+                                        {/* if i need the click for show the commit*/}
+                                        {/*<Button variant="primary" onClick={() => {
+                                            handleShow3()
+                                            setInputs3(commentpo.postId)
+                                            setInputs4(commentpo.body)
+                                        }}>
+                                            comment
+                                        </Button> */}
                                     </div>
-
                                 )
                             })}
                         </>}
-
-
-                        {/* {posteone && posteone.map((element, index) => {
-                            return (<div key={element.id}>
-                             
-                            </div>)
-                        })} */}
-
-                        {/* {userId ? (<><button className="btn btn-primary" >deletePost</button>
-
-                            <button className="btn btn-primary" >updatePost</button></>) : (<></>)} */}
-                        {/* <button className="btn btn-primary" >deletePost</button>
-
-                        <button className="btn btn-primary" >updatePost</button> */}
-
                     </div>
                 </div>
-
-
             </div>)
-
         })}
-        {/* this model for delete  */}
+
+
+        {/* this model for delete   number 1  */}
         <Modal show={show1} onHide={handleClose1}>
             <Modal.Header closeButton>
                 <Modal.Title>Modal heading</Modal.Title>
@@ -189,10 +164,8 @@ const PostForRen = () => {
                     Close
                 </Button>
                 <Button variant="primary" onClick={() => {
-                    // console.log(id);
                     dispatch(deletepost(id))
                     handleClose1()
-
                 }}>
                     delete
                 </Button>
@@ -200,7 +173,7 @@ const PostForRen = () => {
         </Modal>
 
 
-        {/* this for update */}
+        {/* this for update        number 2*/}
         <Modal show={show} onHide={handleClose}>
             <Modal.Header closeButton>
                 <Modal.Title>post Eidt</Modal.Title>
@@ -212,12 +185,10 @@ const PostForRen = () => {
                         <Form.Control
                             type="text"
                             placeholder=""
-
                             onChange={(e) => {
                                 setInputs(e.target.value)
-                               
                             }}
-                            // value={inputs}
+                            value={inputs}
                         />
                     </Form.Group>
                     <Form.Group
@@ -226,12 +197,11 @@ const PostForRen = () => {
                     >
                         <Form.Label>post body</Form.Label>
                         <Form.Control as="textarea" rows={3}
-                            onChange={(e) => { setInputs2(e.target.value)
-                                console.log(inputs2);
-                                }}
-                            // value={inputs2}
-                             />
-
+                            onChange={(e) => {
+                                setInputs2(e.target.value)
+                            }}
+                            value={inputs2}
+                        />
                     </Form.Group>
                 </Form>
             </Modal.Body>
@@ -240,9 +210,7 @@ const PostForRen = () => {
                     Close
                 </Button>
                 <Button variant="primary" onClick={() => {
-                    dispatch(updatepost({inputs2:inputs2,inputs:inputs,id:id}))
-                    
-                    
+                    dispatch(updatepost({ inputs2: inputs2, inputs: inputs, id: id }))
                     handleClose()
                 }}>
                     update
@@ -251,13 +219,85 @@ const PostForRen = () => {
         </Modal>
 
 
-        {/* //{posteone && posteone.map((element, index) => {
-            return (<div>
-                <button className="btn btn-primary" >deletePost</button>
+        {/* this for add     number 3*/}
+        <Modal show={show2} onHide={handleClose2}>
+            <Modal.Header closeButton>
+                <Modal.Title>post add</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                <Form>
+                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                        <Form.Label>post name</Form.Label>
+                        <Form.Control
+                            type="text"
+                            placeholder=""
+                            onChange={(e) => {
+                                setInputs(e.target.value)
+                            }}
+                        />
+                    </Form.Group>
+                    <Form.Group
+                        className="mb-3"
+                        controlId="exampleForm.ControlTextarea1"
+                    >
+                        <Form.Label>post body</Form.Label>
+                        <Form.Control as="textarea" rows={3}
+                            onChange={(e) => {
+                                setInputs2(e.target.value)
+                                // console.log(inputs2);
+                            }}
+                        />
+                    </Form.Group>
+                </Form>
+            </Modal.Body>
+            <Modal.Footer>
+                <Button variant="secondary" onClick={handleClose2}>
+                    Close
+                </Button>
+                <Button variant="primary" onClick={() => {
+                    dispatch(addPost({ title: inputs, body: inputs2, userId: userId, id: conter }))
+                    handleClose2()
+                }}>
+                    add
+                </Button>
+            </Modal.Footer>
+        </Modal>
 
-                <button className="btn btn-primary" >updatePost</button>
-            </div>)
-        })} */}
+
+        {/* this for comment      number 4*/}
+        <Modal show={show3} onHide={handleClose3}>
+            <Modal.Header closeButton>
+                <Modal.Title>comment add</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                <Form>
+                    <Form.Group
+                        className="mb-3"
+                        controlId="exampleForm.ControlTextarea1"
+                    >
+                        <Form.Label>comment body</Form.Label>
+                        <Form.Control as="textarea" rows={3}
+                            onChange={(e) => {
+                                setInputs4(e.target.value)
+                                console.log(inputs4);
+                            }}
+                            value={inputs4}
+                        />
+                    </Form.Group>
+                </Form>
+            </Modal.Body>
+            <Modal.Footer>
+                <Button variant="secondary" onClick={handleClose3}>
+                    Close
+                </Button>
+                <Button variant="primary" onClick={() => {
+                    // dispatch(addPost({ inputs2: inputs2, inputs: inputs, id: id, postId: inputs3 }))
+                    handleClose3()
+                }}>
+                    comment show
+                </Button>
+            </Modal.Footer>
+        </Modal>
     </div>)
 }
 
