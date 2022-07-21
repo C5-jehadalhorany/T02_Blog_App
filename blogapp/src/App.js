@@ -7,10 +7,10 @@ import './App.css';
 
 function App() {
   return (
-    <div className="App">
+    <div className="App  "  >
       <Navbars />
 
-      <Routes className="main">
+      <Routes className="main  container">
         <Route path="/post" element={<PostForRen />} />
         <Route path="/login" element={<Login />} />
         <Route path="/user" element={<User />} />
