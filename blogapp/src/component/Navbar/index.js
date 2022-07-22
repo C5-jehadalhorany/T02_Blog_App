@@ -8,14 +8,15 @@ import { setislogout } from "../../redux/reducers/login"
 
 const Navbars = () => {
     const [allpost, setAllpost] = useState([]);
-    const [username, setUsername] = useState("");
+    const [usernames, setUsernames] = useState("");
     const [islogingin, setIslogingin] = useState(false);
 
 
-    const { userId, login } = useSelector((state) => {
+    const { userId, login, username } = useSelector((state) => {
         return {
             userId: state.login.userId,
             login: state.login.login,
+            username: state.login.username
         };
     });
     const dispatch = useDispatch()
@@ -24,7 +25,7 @@ const Navbars = () => {
     const userforlogin = () => {
         axios.get(`https://jsonplaceholder.typicode.com/users/${userId}
         `).then((result) => {
-            setUsername(result.data.username)
+            setUsernames(result.data.username)
             setIslogingin(true)
         }).catch((err) => {
             console.log(err);
@@ -66,7 +67,10 @@ const Navbars = () => {
                             dispatch(setislogout(false))
                         }}> log out</Navbar.Brand>
                             <Navbar.Text>
-                                Signed in as: <a href="/" >   {username}</a>
+                                Signed in as: <a href="/profile" >
+                                    {username}
+                                    {/* {usernames} */}
+                                </a>
                             </Navbar.Text>
                         </>) :
 

@@ -104,10 +104,11 @@ const PostForRen = () => {
                     </div>
                     <div className="card-body">
                         <h5 className="card-title">{element.title}</h5>
+                        <br />
+                        <br/>
                         <p className="card-text">{element.body}</p>
                         <br />
-                        <br />
-                        <br />
+                        <hr/>
                         {userId == element.userId && <>
                             {/* this button for delete post  */}
                             <Button variant="primary" onClick={() => {

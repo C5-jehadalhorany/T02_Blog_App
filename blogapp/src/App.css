@@ -10,7 +10,7 @@ th, td {
     padding: 10px;
 } */
 
-table {
+/* table {
   border-collapse: collapse;
   display: flex;
   width: 100%;
@@ -21,7 +21,10 @@ th {
   border: 1px solid #999;
   padding: 0.5rem;
   text-align: left;
-}
+  display: grid;
+  justify-content: space-around;
+  font-size: x-large;
+} */
 
 /* .allpostandcomment {
     display: grid;
@@ -36,3 +39,27 @@ th {
 .postinmap {
   width: 80%;
 } */
+
+.ea {
+  width: 150px;
+}
+
+.profile.container {
+  display: grid;
+  border: 2px;
+  border-radius: 5px;
+  border-color: lightgray;
+  border-style: solid;
+  margin-top: 10%;
+}
+
+.aw {
+  background-color: darkgrey;
+  color: #000;
+  font-size: large;
+}
+
+button.btn.btn-primary.container {
+  width: auto;
+  font-size: large;
+}
