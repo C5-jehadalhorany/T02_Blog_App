@@ -5,11 +5,14 @@ import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import { setislogout } from "../../redux/reducers/login"
+import { useNavigate } from "react-router-dom";
+
 
 const Navbars = () => {
     const [allpost, setAllpost] = useState([]);
     const [usernames, setUsernames] = useState("");
     const [islogingin, setIslogingin] = useState(false);
+    const navigate = useNavigate();
 
 
     const { userId, login, username } = useSelector((state) => {
@@ -83,7 +86,9 @@ const Navbars = () => {
                 <Navbar bg="dark" variant="dark">
                     <Container >
                         <Navbar.Text>
-                            <a href="/login"  >  login </a>
+                            <a  onClick={() => {
+                                navigate("/login")
+                            }}>  login </a>
                         </Navbar.Text>
                     </Container>
                 </Navbar>
