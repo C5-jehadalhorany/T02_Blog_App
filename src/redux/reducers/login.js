@@ -31,7 +31,8 @@ export const isloginSlice = createSlice({
             localStorage.setItem("username", state.username)
         },
         setisname: (state, action) => {
-            state.name = action.payload.name
+            // console.log(action.payload);
+            state.name = action.payload
             localStorage.setItem("username", state.name)
         },
         updatein: (state, action) => {
@@ -41,7 +42,7 @@ export const isloginSlice = createSlice({
             localStorage.setItem("username", state.username)
         },
 
-        
+
 
 
     }

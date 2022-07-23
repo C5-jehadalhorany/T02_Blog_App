@@ -6,12 +6,14 @@ import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import { setislogout } from "../../redux/reducers/login"
 import { useNavigate } from "react-router-dom";
+import { setisname } from '../../redux/reducers/login';
 
 
 const Navbars = () => {
     const [allpost, setAllpost] = useState([]);
     const [usernames, setUsernames] = useState("");
     const [islogingin, setIslogingin] = useState(false);
+
     const navigate = useNavigate();
 
 
@@ -28,6 +30,9 @@ const Navbars = () => {
     const userforlogin = () => {
         axios.get(`https://jsonplaceholder.typicode.com/users/${userId}
         `).then((result) => {
+            dispatch(setisname(result.data.username))
+            // console.log(result.data.username);
+
             setUsernames(result.data.username)
             setIslogingin(true)
         }).catch((err) => {
@@ -70,7 +75,10 @@ const Navbars = () => {
                             dispatch(setislogout(false))
                         }}> log out</Navbar.Brand>
                             <Navbar.Text>
-                                Signed in as: <a href="/profile" >
+                                Signed in as: <a href="/profile"
+                                    onClick={() => {
+                                                                                                navigate("/profile")
+                                    }}>
                                     {username}
                                     {/* {usernames} */}
                                 </a>
@@ -86,7 +94,7 @@ const Navbars = () => {
                 <Navbar bg="dark" variant="dark">
                     <Container >
                         <Navbar.Text>
-                            <a  onClick={() => {
+                            <a onClick={() => {
                                 navigate("/login")
                             }}>  login </a>
                         </Navbar.Text>
